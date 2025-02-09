@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarkov Flea Market</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .search-container {
+            width: 1200px;
+            height: 120px;
+            background: white;
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box {
+            flex: 1;
+            height: 50px;
+            font-size: 18px;
+            padding: 0 20px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .search-button {
+            width: 150px;
+            height: 50px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            background: #0056b3;
+        }
+
+        .results {
+            margin-top: 20px;
+            width: 1200px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <div class="search-container">
+            <input type="text" id="search-input" class="search-box" placeholder="Search...">
+            <button id="search-button" class="search-button">Search</button>
+        </div>
+        
+        <div id="results" class="results"></div>
+    </div>
+
+    <script>
+       document.getElementById('search-button').addEventListener('click', async () => {
+    const query = document.getElementById('search-input').value;
+    const resultsDiv = document.getElementById('results');
+
+    if (!query) {
+        resultsDiv.innerHTML = "<p style='color: red;'>아이템 이름을 입력하세요!</p>";
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:5000/search?name=${query}`);
+        const data = await response.json();
+
+        if (data.items.length === 0) {
+            resultsDiv.innerHTML = "<p>검색 결과가 없습니다.</p>";
+            return;
+        }
+
+        resultsDiv.innerHTML = data.items.map(item => `
+            <div class="result-item">
+                <img src="${item.imgUrl}" alt="${item.name}" width="80">
+                <strong>${item.name} (${item.shortName})</strong>
+                <p>가격: ${item.low24hPrice ? item.low24hPrice + ' ₽' : '정보 없음'}</p>
+            </div>
+        `).join('');
+    } catch (error) {
+        resultsDiv.innerHTML = "<p style='color: red;'>오류가 발생했습니다.</p>";
+        console.error(error);
+    }
+});
+</script>
+
+</body>
+</html>
