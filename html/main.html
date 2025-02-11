@@ -71,6 +71,7 @@
             border-bottom: 1px solid #ddd;
             display: flex;
             align-items: center;
+            justify-content: space-around;
         }
 
         .result-item img {
@@ -117,9 +118,9 @@
             <div class="result-item">
                 <img src="${item.image512pxLink}" alt="${item.name}" width="80">
                 <strong>${item.name} (${item.shortName})</strong>
-                <p>최고가: ${item.high24hPrice} ₽</p>
-                <p>최저가: ${item.low24hPrice} ₽</p>
-                <p>평균가: ${item.avg24hPrice} ₽</p>
+                <p>24시간 최고가: ${item.high24hPrice} ₽</p>
+                <p>24시간 최저가: ${item.low24hPrice} ₽</p>
+                <p>24시간 평균가: ${item.avg24hPrice} ₽</p>
             </div>
         `;
         return null
