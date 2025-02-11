@@ -49,6 +49,6 @@ app.get('/search', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`여기로 접속 ㄱ : http://localhost:${PORT}`);
+    console.log(`url : http://localhost:${PORT}`);
 });
 
