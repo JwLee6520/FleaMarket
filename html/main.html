@@ -69,6 +69,15 @@
         .result-item {
             padding: 10px;
             border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+        }
+
+        .result-item img {
+            margin-right: 20px;
+            max-width: 80px;
+            max-height: 80px;
+            object-fit: cover;
         }
 
         .result-item:last-child {
@@ -88,7 +97,7 @@
     </div>
 
     <script>
-       document.getElementById('search-button').addEventListener('click', async () => {
+    document.getElementById('search-button').addEventListener('click', async () => {
     const query = document.getElementById('search-input').value;
     const resultsDiv = document.getElementById('results');
 
@@ -99,9 +108,10 @@
 
     try {
         const response = await fetch(`http://localhost:5000/search?name=${query}`);
+
         const data = await response.json();
 
-        if (data.items.length === 0) {
+        if (data.items && data.items.length === 0) {
             resultsDiv.innerHTML = "<p>검색 결과가 없습니다.</p>";
             return;
         }
@@ -110,7 +120,7 @@
             <div class="result-item">
                 <img src="${item.imgUrl}" alt="${item.name}" width="80">
                 <strong>${item.name} (${item.shortName})</strong>
-                <p>가격: ${item.low24hPrice ? item.low24hPrice + ' ₽' : '정보 없음'}</p>
+                <p>가격: ${item.low24hPrice ? item.low24hPrice + ' ₽' : ''}</p>
             </div>
         `).join('');
     } catch (error) {
@@ -118,7 +128,8 @@
         console.error(error);
     }
 });
-</script>
+
+    </script>
 
 </body>
 </html>
