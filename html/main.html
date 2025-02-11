@@ -115,9 +115,11 @@
     if (item.low24hPrice) {
         return `
             <div class="result-item">
-                <img src="${item.imgUrl}" alt="${item.name}" width="80">
+                <img src="${item.image512pxLink}" alt="${item.name}" width="80">
                 <strong>${item.name} (${item.shortName})</strong>
-                <p>가격: ${item.low24hPrice} ₽</p>
+                <p>최고가: ${item.high24hPrice} ₽</p>
+                <p>최저가: ${item.low24hPrice} ₽</p>
+                <p>평균가: ${item.avg24hPrice} ₽</p>
             </div>
         `;
         return null

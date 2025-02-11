@@ -31,7 +31,10 @@ app.get('/search', async (req, res) => {
         id
         name
         shortName
+        high24hPrice
         low24hPrice
+        avg24hPrice
+        image512pxLink
     }
 }
 `;
