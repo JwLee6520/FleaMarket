@@ -108,26 +108,28 @@
 
     try {
         const response = await fetch(`http://localhost:5000/search?name=${query}`);
-
         const data = await response.json();
+        console.log('데이터 확인:', data);
+        if (data && data.items && data.items.length > 0) {
 
-        if (data.items && data.items.length === 0) {
+            resultsDiv.innerHTML = data.items.map(item => `
+                <div class="result-item">
+                    <!-- imgUrl이 없으면 기본 이미지로 대체 -->
+                    <img src="${item.imgUrl || 'https://via.placeholder.com/80'}" alt="${item.name}" width="80">
+                    <strong>${item.name} (${item.shortName})</strong>
+                    <p>가격: ${item.low24hPrice ? item.low24hPrice + ' ₽' : '정보 없음'}</p>
+                </div>
+            `).join('');
+        } else {
+            // items가 없으면 결과가 없다고 표시
             resultsDiv.innerHTML = "<p>검색 결과가 없습니다.</p>";
-            return;
         }
-
-        resultsDiv.innerHTML = data.items.map(item => `
-            <div class="result-item">
-                <img src="${item.imgUrl}" alt="${item.name}" width="80">
-                <strong>${item.name} (${item.shortName})</strong>
-                <p>가격: ${item.low24hPrice ? item.low24hPrice + ' ₽' : ''}</p>
-            </div>
-        `).join('');
     } catch (error) {
         resultsDiv.innerHTML = "<p style='color: red;'>오류가 발생했습니다.</p>";
-        console.error(error);
+        console.error('오류 발생:', error);
     }
 });
+
 
     </script>
 

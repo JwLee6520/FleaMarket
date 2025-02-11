@@ -27,14 +27,13 @@ app.get('/search', async (req, res) => {
 
     const query = gql`
     query GetItem($itemName: String!) {
-        items(name: $itemName) {
-            id
-            name
-            shortName
-            low24hPrice
-            imgUrl: 'https://example.com/image.jpg'
-        }
+    items(name: $itemName) {
+        id
+        name
+        shortName
+        low24hPrice
     }
+}
 `;
 
     
